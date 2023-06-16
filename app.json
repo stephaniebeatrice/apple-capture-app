@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "name": "geolocationApp",
+    "slug": "geolocationApp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.kberen.geolocationApp"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "The app needs access to your camera in order to take photos of your favorite places."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "f722d21e-993b-4197-8f22-12dd8ca3e3a2"
+      }
+    }
+  }
+}
