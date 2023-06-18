@@ -27,7 +27,7 @@ function PlaceDetails({ route, navigation }) {
         title: place.title,
       });
     }
-
+    //adding placedata
     loadPlaceData();
   }, [selectedPlaceId]);
 
