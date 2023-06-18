@@ -12,10 +12,24 @@ import { Text } from "react-native";
 import PlaceDetails from "./screens/PlaceDetails";
 import { Login } from "./screens/Login";
 import { SignUp } from "./screens/Signup";
+import { useLayoutEffect, useState } from "react";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [email, setEmail] = useState("");
+
+  const getAuth = () => {
+    //check from local storage if we have an email to authenticate a user
+    let email = localStorage.getItem("email");
+    if (email) {
+      setEmail(email);
+    }
+  };
+  useLayoutEffect(() => {
+    getAuth();
+  }, [email]);
+
   return (
     <>
       <StatusBar style="dark" />
@@ -27,30 +41,36 @@ export default function App() {
             contentStyle: { backgroundColor: Colors.gray700 },
           }}
         >
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={({ navigation }) => ({
-              title: "Login",
-              // headerRight: ({ tintColor }) => <IconButton icon="add" size={24} color={tintColor} onPress={() => navigation.navigate("AddPlace")} />,
-            })}
-          />
-          <Stack.Screen
-            name="Signup"
-            component={SignUp}
-            options={({ navigation }) => ({
-              title: "Sign up",
-              // headerRight: ({ tintColor }) => <IconButton icon="add" size={24} color={tintColor} onPress={() => navigation.navigate("AddPlace")} />,
-            })}
-          />
-          <Stack.Screen
-            name="AllPlaces"
-            component={AllPlaces}
-            options={({ navigation }) => ({
-              title: "APPLES",
-              headerRight: ({ tintColor }) => <IconButton icon="add" size={24} color={tintColor} onPress={() => navigation.navigate("AddPlace")} />,
-            })}
-          />
+          {!email && (
+            <>
+              <Stack.Screen
+                name="Login"
+                component={Login}
+                options={({ navigation }) => ({
+                  title: "Login",
+                  // headerRight: ({ tintColor }) => <IconButton icon="add" size={24} color={tintColor} onPress={() => navigation.navigate("AddPlace")} />,
+                })}
+              />
+              <Stack.Screen
+                name="Signup"
+                component={SignUp}
+                options={({ navigation }) => ({
+                  title: "Sign up",
+                  // headerRight: ({ tintColor }) => <IconButton icon="add" size={24} color={tintColor} onPress={() => navigation.navigate("AddPlace")} />,
+                })}
+              />
+              <Stack.Screen
+                name="AllPlaces"
+                component={AllPlaces}
+                options={({ navigation }) => ({
+                  title: "APPLES",
+                  headerRight: ({ tintColor }) => (
+                    <IconButton icon="add" size={24} color={tintColor} onPress={() => navigation.navigate("AddPlace")} />
+                  ),
+                })}
+              />
+            </>
+          )}
           <Stack.Screen
             name="AddPlace"
             component={AddPlace}
