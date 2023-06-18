@@ -1,18 +1,17 @@
-import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StatusBar } from "expo-status-bar";
 
-import AllPlaces from "./screens/AllPlaces";
-import AddPlace from "./screens/AddPlace";
 import IconButton from "./components/UI/IconButton";
 import { Colors } from "./constants/colors";
+import AddPlace from "./screens/AddPlace";
+import AllPlaces from "./screens/AllPlaces";
 import Map from "./screens/Map";
-import { Text } from "react-native";
 
-import PlaceDetails from "./screens/PlaceDetails";
-import { Login } from "./screens/Login";
-import { SignUp } from "./screens/Signup";
 import { useLayoutEffect, useState } from "react";
+import { Login } from "./screens/Login";
+import PlaceDetails from "./screens/PlaceDetails";
+import { SignUp } from "./screens/Signup";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,7 +19,6 @@ export default function App() {
   const [email, setEmail] = useState("");
 
   const getAuth = () => {
-    //check from local storage if we have an email to authenticate a user
     let email = localStorage.getItem("email");
     if (email) {
       setEmail(email);
