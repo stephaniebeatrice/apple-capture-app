@@ -1,5 +1,12 @@
 import { useCallback, useState } from "react";
-import { Alert, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 
 import { Colors } from "../../constants/colors";
 import { Place } from "../../models/place";
@@ -14,7 +21,7 @@ function PlaceForm({ onCreatePlace }) {
   const [enteredColumn, setEnteredColumn] = useState("");
   const [enteredYOP, setEnteredYOP] = useState("");
 
-  const [pickedLocation, setPickedLocation] = useState();
+  const [pickedLocation, setPickedLocation] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
 
   const checkFormValidity = () => {
@@ -23,8 +30,10 @@ function PlaceForm({ onCreatePlace }) {
     const isRowValid = enteredRow?.trim() !== "";
     const isColumnValid = enteredColumn?.trim() !== "";
     const isYOPValid = enteredYOP?.trim() !== "";
-    const isLocationValid = pickedLocation?.trim() !== "";
-    return isIDValid && isBreedValid && isRowValid && isColumnValid && isYOPValid && isLocationValid;
+    // const isLocationValid = pickedLocation.trim() !== "";
+    return (
+      isIDValid && isBreedValid && isRowValid && isColumnValid && isYOPValid
+    );
   };
 
   function changeColumnHandler(enteredText) {
@@ -49,42 +58,80 @@ function PlaceForm({ onCreatePlace }) {
   }
 
   const pickLocationHandler = useCallback(
-    location => {
-      console.log("===========================LOCATION==========================");
-      console.log(location);
-      if (location) setPickedLocation(location);
-      setIsFormValid(checkFormValidity());
+    (location) => {
+      try {
+        if (location) {
+          setPickedLocation(location);
+          if (pickedLocation) {
+            setIsFormValid(true);
+          }
+          // setIsFormValid(checkFormValidity());
+          // checkFormValidityFn();
+          // console.log("picklocation handler", pickedLocation);
+        }
+      } catch (error) {
+        console.log("An error occurred in pickLocationHandler:", error);
+      }
     },
-    [pickedLocation]
+    [checkFormValidity]
   );
 
   function savePlaceHandler() {
     if (!isFormValid) {
       Alert.alert("Fill all the Details before submitting");
-      return; // Exit the function if the form is not valid
+      return;
     }
-    const placeData = new Place(enteredTitle, enteredID, enteredYOP, enteredBreed, enteredRow, enteredColumn, pickedLocation);
+    const placeData = new Place(
+      enteredID,
+      enteredYOP,
+      enteredBreed,
+      enteredRow,
+      enteredColumn,
+      pickedLocation
+    );
     onCreatePlace(placeData);
-    console.log("ddf", placeData);
   }
 
   return (
     <ScrollView style={styles.form}>
       <View>
         <Text style={styles.label}>Apple ID</Text>
-        <TextInput style={styles.input} onChangeText={changeIDHandler} value={enteredID} />
+        <TextInput
+          style={styles.input}
+          onChangeText={changeIDHandler}
+          value={enteredID}
+        />
         <Text style={styles.label}>YOP</Text>
-        <TextInput style={styles.input} onChangeText={changeYOPHandler} value={enteredYOP} />
+        <TextInput
+          style={styles.input}
+          onChangeText={changeYOPHandler}
+          value={enteredYOP}
+        />
         <Text style={styles.label}>Breed</Text>
-        <TextInput style={styles.input} onChangeText={changeBreedHandler} value={enteredBreed} />
+        <TextInput
+          style={styles.input}
+          onChangeText={changeBreedHandler}
+          value={enteredBreed}
+        />
         <Text style={styles.label}>Row</Text>
-        <TextInput style={styles.input} onChangeText={changeRowHandler} value={enteredRow} />
+        <TextInput
+          style={styles.input}
+          onChangeText={changeRowHandler}
+          value={enteredRow}
+        />
         <Text style={styles.label}>Column</Text>
-        <TextInput style={styles.input} onChangeText={changeColumnHandler} value={enteredColumn} />
+        <TextInput
+          style={styles.input}
+          onChangeText={changeColumnHandler}
+          value={enteredColumn}
+        />
       </View>
       {/* <ImagePicker onTakeImage={takeImageHandler} /> */}
       <LocationPicker onPickLocation={pickLocationHandler} />
-      <Button onPress={savePlaceHandler} disabled={!isFormValid}>
+      <Button
+        onPress={savePlaceHandler}
+        disabled={!isFormValid && pickedLocation}
+      >
         Add Place
       </Button>
       <View style={styles.view} />

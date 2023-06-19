@@ -23,6 +23,7 @@
     "react-dom": "^18.2.0",
     "react-native": "0.71.8",
     "react-native-maps": "^1.7.1",
+    "react-native-uuid": "^2.0.1",
     "react-native-web": "^0.19.4"
   },
   "devDependencies": {

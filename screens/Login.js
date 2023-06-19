@@ -30,7 +30,7 @@ export const Login = ({ navigation }) => {
           } catch (error) {
             console.log("Error storing data: ", error);
           }
-          navigation.navigate("AllPlaces");
+          navigation.navigate("AllPlaces", { email: email });
         }
       }
     }

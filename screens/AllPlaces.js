@@ -9,10 +9,12 @@ function AllPlaces({ route }) {
   const [loadedPlaces, setLoadedPlaces] = useState([]);
 
   const isFocused = useIsFocused();
+  const email = "kelvinmomanyi3@gmail.com";
+  console.log(email);
 
   useEffect(() => {
     async function loadPlaces() {
-      const places = await fetchData();
+      const places = await fetchData(email);
       // console.log("WAIT", places);
       setLoadedPlaces(places);
     }
