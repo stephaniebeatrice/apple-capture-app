@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Alert, StyleSheet, View, TextInput, Button, Text } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -23,6 +24,12 @@ export const Login = ({ navigation }) => {
           setMsg(data.message);
         } else {
           setMsg("");
+          try {
+            await AsyncStorage.setItem("key", email);
+            console.log("Data stored successfully.");
+          } catch (error) {
+            console.log("Error storing data: ", error);
+          }
           navigation.navigate("AllPlaces");
         }
       }
@@ -32,10 +39,24 @@ export const Login = ({ navigation }) => {
   return (
     <View style={styles.form}>
       <Text style={styles.label}>Email</Text>
-      <TextInput style={styles.input} onChangeText={text => setEmail(text)} value={email} />
+      <TextInput
+        style={styles.input}
+        onChangeText={(text) => setEmail(text)}
+        value={email}
+      />
       <Text style={styles.label}>Password</Text>
-      <TextInput style={styles.input} onChangeText={text => setPassword(text)} value={password} />
-      {msg && <Text style={{ marginVertical: 10, color: "#50C878", textAlign: "center" }}>{msg}</Text>}
+      <TextInput
+        style={styles.input}
+        onChangeText={(text) => setPassword(text)}
+        value={password}
+      />
+      {msg && (
+        <Text
+          style={{ marginVertical: 10, color: "#50C878", textAlign: "center" }}
+        >
+          {msg}
+        </Text>
+      )}
       <Button onPress={loginHandler} title="Login" />
       <View style={{ marginVertical: 10 }}>
         <Button onPress={() => navigation.navigate("Signup")} title="Sign up" />

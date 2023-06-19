@@ -12,22 +12,29 @@ import { Text } from "react-native";
 import PlaceDetails from "./screens/PlaceDetails";
 import { Login } from "./screens/Login";
 import { SignUp } from "./screens/Signup";
-import { useLayoutEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [email, setEmail] = useState("");
 
-  const getAuth = () => {
-    //check from local storage if we have an email to authenticate a user
-    let email = localStorage.getItem("email");
-    if (email) {
-      setEmail(email);
+  const retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("key");
+      setEmail(value);
+      if (value !== null) {
+        console.log("Retrieved data: ", value);
+      } else {
+        console.log("No data found.", value);
+      }
+    } catch (error) {
+      console.log("Error retrieving data: ", error);
     }
   };
+
   useLayoutEffect(() => {
-    getAuth();
+    retrieveData();
   }, [email]);
 
   return (
@@ -59,18 +66,17 @@ export default function App() {
                   // headerRight: ({ tintColor }) => <IconButton icon="add" size={24} color={tintColor} onPress={() => navigation.navigate("AddPlace")} />,
                 })}
               />
-              <Stack.Screen
-                name="AllPlaces"
-                component={AllPlaces}
-                options={({ navigation }) => ({
-                  title: "APPLES",
-                  headerRight: ({ tintColor }) => (
-                    <IconButton icon="add" size={24} color={tintColor} onPress={() => navigation.navigate("AddPlace")} />
-                  ),
-                })}
-              />
             </>
           )}
+          <Stack.Screen
+            name="AllPlaces"
+            component={AllPlaces}
+            options={({ navigation }) => ({
+              title: "APPLES",
+              headerRight: ({ tintColor }) => <IconButton icon="add" size={24} color={tintColor} onPress={() => navigation.navigate("AddPlace")} />,
+            })}
+          />
+
           <Stack.Screen
             name="AddPlace"
             component={AddPlace}
