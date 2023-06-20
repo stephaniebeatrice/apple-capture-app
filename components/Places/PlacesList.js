@@ -16,20 +16,11 @@ function PlacesList({ places }) {
 
 	if (!places || places.length === 0) {
 		return (
-			<ImageBackground
-				source={require('../../assets/welcomePage.jpeg')}
-				style={styles.backgroundImage}
-			>
-				<LinearGradient
-					colors={['rgba(0,0,0,0.5)', 'rgba(0,0,0,0)']}
-					style={styles.overlay}
-				/>
-				<View style={styles.fallbackContainer}>
-					<Text style={styles.fallbackText}>
-						No places added yet - start adding some!
-					</Text>
-				</View>
-			</ImageBackground>
+			<View style={styles.fallbackContainer}>
+				<Text style={styles.fallbackText}>
+					No places added yet - start adding some!
+				</Text>
+			</View>
 		)
 	}
 
@@ -51,20 +42,14 @@ const styles = StyleSheet.create({
 	list: {
 		margin: 24
 	},
-	backgroundImage: {
-		flex: 1,
-		resizeMode: 'cover'
-	},
-	overlay: {
-		...StyleSheet.absoluteFillObject
-	},
 	fallbackContainer: {
 		flex: 1,
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
+		backgroundColor: 'white'
 	},
 	fallbackText: {
 		fontSize: 16,
-		color: '#5bc75d'
+		color: 'black'
 	}
 })
