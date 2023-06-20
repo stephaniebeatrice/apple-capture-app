@@ -41,9 +41,12 @@ export const Login = ({ navigation }) => {
       });
       const data = await res.json();
 
+      console.log("email while logging in", email, "and data", data);
+
       if (data) {
         if (data.message) {
           setMsg(data.message);
+          setEmail(email);
         } else {
           setMsg("");
           try {
@@ -52,7 +55,7 @@ export const Login = ({ navigation }) => {
           } catch (error) {
             console.log("Error storing data: ", error);
           }
-          navigation.navigate("AllPlaces");
+          navigation.navigate("AllPlaces", { email: email });
         }
       } else {
         setMsg("Invalid email or password"); // Throw an error message

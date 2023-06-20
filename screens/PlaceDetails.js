@@ -3,16 +3,20 @@ import { ScrollView, Image, View, Text, StyleSheet } from "react-native";
 
 import OutlinedButton from "../components/UI/OutlinedButton";
 import { Colors } from "../constants/colors";
-import { fetchData, fetchPlaceDetails } from "../util/database";
+import { deleteItemById, fetchPlaceDetails } from "../util/database";
 
 function PlaceDetails({ route, navigation }) {
   const [fetchedPlace, setFetchedPlace] = useState();
 
   function showOnMapHandler() {
     navigation.navigate("Map", {
-      initialLat: fetchedPlace.location.lat,
-      initialLng: fetchedPlace.location.lng,
+      initialLat: fetchedPlace.geoLocation.lat,
+      initialLng: fetchedPlace.geoLocation.lng,
     });
+  }
+  function deleteHandler() {
+    console.log(selectedPlaceId);
+    deleteItemById(selectedPlaceId);
   }
 
   const selectedPlaceId = route.params.placeId;
@@ -24,7 +28,7 @@ function PlaceDetails({ route, navigation }) {
       // console.log("placedetails", place);
       setFetchedPlace(place);
       navigation.setOptions({
-        title: place.title,
+        title: "Apple Details",
       });
     }
     //adding placedata
@@ -39,6 +43,7 @@ function PlaceDetails({ route, navigation }) {
     );
   }
 
+  // console.log("this is the place details fetched place", fetchedPlace);
   return (
     <ScrollView>
       <Text style={styles.title}>Apple Details</Text>
@@ -48,7 +53,7 @@ function PlaceDetails({ route, navigation }) {
             <Text style={styles.cellText}>YOP</Text>
           </View>
           <View style={styles.column}>
-            <Text style={styles.cellText}>{fetchedPlace.yop}</Text>
+            <Text style={styles.cellText}>{fetchedPlace.YOP}</Text>
           </View>
         </View>
         <View style={styles.row}>
@@ -75,6 +80,9 @@ function PlaceDetails({ route, navigation }) {
         </View>
         <OutlinedButton icon="map" onPress={showOnMapHandler}>
           View on Map
+        </OutlinedButton>
+        <OutlinedButton icon={"trash-bin"} onPress={deleteHandler}>
+          Delete Item
         </OutlinedButton>
       </View>
     </ScrollView>
