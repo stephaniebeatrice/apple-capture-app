@@ -1,14 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React, { useState, useLayoutEffect } from 'react';
 
 import AllPlaces from "./screens/AllPlaces";
 import AddPlace from "./screens/AddPlace";
 import IconButton from "./components/UI/IconButton";
 import { Colors } from "./constants/colors";
 import Map from "./screens/Map";
-import { Text } from "react-native";
-
 import PlaceDetails from "./screens/PlaceDetails";
 import { Login } from "./screens/Login";
 import { SignUp } from "./screens/Signup";
@@ -48,7 +47,7 @@ export default function App() {
             contentStyle: { backgroundColor: Colors.gray700 },
           }}
         >
-          {email && (
+          {!email && (
             <>
               <Stack.Screen
                 name="Login"
@@ -64,18 +63,20 @@ export default function App() {
                 options={({ navigation }) => ({
                   title: "Sign up",
                   // headerRight: ({ tintColor }) => <IconButton icon="add" size={24} color={tintColor} onPress={() => navigation.navigate("AddPlace")} />,
+                
                 })}
               />
             </>
-          )}
-          <Stack.Screen
-            name="AllPlaces"
-            component={AllPlaces}
-            options={({ navigation }) => ({
-              title: "APPLES",
-              headerRight: ({ tintColor }) => <IconButton icon="add" size={24} color={tintColor} onPress={() => navigation.navigate("AddPlace")} />,
-            })}
-          />
+              )}
+      
+            <Stack.Screen
+              name="AllPlaces"
+              component={AllPlaces}
+              options={({ navigation }) => ({
+                headerRight: ({ tintColor }) => <IconButton icon="add" size={24} color={tintColor} onPress={() => navigation.navigate("AddPlace")} />,
+                title: "APPLES",
+              })}
+            />
 
           <Stack.Screen
             name="AddPlace"
