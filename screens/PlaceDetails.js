@@ -3,7 +3,7 @@ import { ScrollView, Image, View, Text, StyleSheet } from "react-native";
 
 import OutlinedButton from "../components/UI/OutlinedButton";
 import { Colors } from "../constants/colors";
-import { fetchData, fetchPlaceDetails } from "../util/database";
+import { deleteItemById, fetchData, fetchPlaceDetails } from "../util/database";
 
 function PlaceDetails({ route, navigation }) {
   const [fetchedPlace, setFetchedPlace] = useState();
@@ -13,6 +13,10 @@ function PlaceDetails({ route, navigation }) {
       initialLat: fetchedPlace.location.lat,
       initialLng: fetchedPlace.location.lng,
     });
+  }
+  function deleteHandler() {
+    console.log(selectedPlaceId);
+    deleteItemById(selectedPlaceId);
   }
 
   const selectedPlaceId = route.params.placeId;
@@ -24,7 +28,7 @@ function PlaceDetails({ route, navigation }) {
       // console.log("placedetails", place);
       setFetchedPlace(place);
       navigation.setOptions({
-        title: place.title,
+        title: "Apple Details",
       });
     }
     //adding placedata
@@ -75,6 +79,9 @@ function PlaceDetails({ route, navigation }) {
         </View>
         <OutlinedButton icon="map" onPress={showOnMapHandler}>
           View on Map
+        </OutlinedButton>
+        <OutlinedButton icon={"trash-bin"} onPress={deleteHandler}>
+          Delete Item
         </OutlinedButton>
       </View>
     </ScrollView>

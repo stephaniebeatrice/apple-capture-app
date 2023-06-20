@@ -14,7 +14,7 @@ import Button from "../UI/Button";
 import LocationPicker from "./LocationPicker";
 
 function PlaceForm({ onCreatePlace }) {
-  const [enteredTitle, setEnteredTitle] = useState("");
+  
   const [enteredID, setEnteredID] = useState("");
   const [enteredBreed, setEnteredBreed] = useState("");
   const [enteredRow, setEnteredRow] = useState("");
@@ -57,24 +57,21 @@ function PlaceForm({ onCreatePlace }) {
     setIsFormValid(checkFormValidity());
   }
 
-  const pickLocationHandler = useCallback(
-    (location) => {
-      try {
-        if (location) {
-          setPickedLocation(location);
-          if (pickedLocation) {
-            setIsFormValid(true);
-          }
-          // setIsFormValid(checkFormValidity());
-          // checkFormValidityFn();
-          // console.log("picklocation handler", pickedLocation);
+  const pickLocationHandler = useCallback((location) => {
+    try {
+      if (location) {
+        setPickedLocation(location);
+        if (pickedLocation) {
+          setIsFormValid(true);
         }
-      } catch (error) {
-        console.log("An error occurred in pickLocationHandler:", error);
+        // setIsFormValid(checkFormValidity());
+        // checkFormValidityFn();
+        // console.log("picklocation handler", pickedLocation);
       }
-    },
-    [checkFormValidity]
-  );
+    } catch (error) {
+      console.log("An error occurred in pickLocationHandler:", error);
+    }
+  }, []);
 
   function savePlaceHandler() {
     if (!isFormValid) {
@@ -128,10 +125,7 @@ function PlaceForm({ onCreatePlace }) {
       </View>
       {/* <ImagePicker onTakeImage={takeImageHandler} /> */}
       <LocationPicker onPickLocation={pickLocationHandler} />
-      <Button
-        onPress={savePlaceHandler}
-        disabled={!isFormValid && pickedLocation}
-      >
+      <Button onPress={savePlaceHandler} disabled={!isFormValid}>
         Add Place
       </Button>
       <View style={styles.view} />

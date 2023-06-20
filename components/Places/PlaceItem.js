@@ -10,6 +10,7 @@ function PlaceItem({ place, onSelect }) {
     }
     return text;
   };
+  console.log(["place item", place]);
   return (
     <Pressable
       style={({ pressed }) => [styles.item, pressed && styles.pressed]}
