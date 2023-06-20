@@ -129,6 +129,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Colors.primary100,
     borderRadius: 4,
+    borderWidth: 1,
+    borderColor: "#ccc",
     overflow: "hidden",
   },
   actions: {

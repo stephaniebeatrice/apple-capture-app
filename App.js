@@ -17,7 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState("");
 
   const retrieveData = async () => {
     try {
@@ -78,9 +78,7 @@ export default function App() {
                   icon="add"
                   size={24}
                   color={tintColor}
-                  onPress={() =>
-                    navigation.navigate("AddPlace", { email: email })
-                  }
+                  onPress={() => navigation.navigate("AddPlace")}
                 />
               ),
             })}

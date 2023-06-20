@@ -6,6 +6,7 @@ import {
   Text,
   TextInput,
   View,
+  ImageBackground,
 } from "react-native";
 
 import { Colors } from "../../constants/colors";
@@ -14,14 +15,13 @@ import Button from "../UI/Button";
 import LocationPicker from "./LocationPicker";
 
 function PlaceForm({ onCreatePlace }) {
-  
   const [enteredID, setEnteredID] = useState("");
   const [enteredBreed, setEnteredBreed] = useState("");
   const [enteredRow, setEnteredRow] = useState("");
   const [enteredColumn, setEnteredColumn] = useState("");
   const [enteredYOP, setEnteredYOP] = useState("");
 
-  const [pickedLocation, setPickedLocation] = useState("");
+  const [pickedLocation, setPickedLocation] = useState();
   const [isFormValid, setIsFormValid] = useState(false);
 
   const checkFormValidity = () => {
@@ -30,9 +30,14 @@ function PlaceForm({ onCreatePlace }) {
     const isRowValid = enteredRow?.trim() !== "";
     const isColumnValid = enteredColumn?.trim() !== "";
     const isYOPValid = enteredYOP?.trim() !== "";
-    // const isLocationValid = pickedLocation.trim() !== "";
+    const isLocationValid = pickedLocation?.trim() !== "";
     return (
-      isIDValid && isBreedValid && isRowValid && isColumnValid && isYOPValid
+      isIDValid &&
+      isBreedValid &&
+      isRowValid &&
+      isColumnValid &&
+      isYOPValid &&
+      isLocationValid
     );
   };
 
