@@ -10,18 +10,24 @@ export const Login = ({ navigation }) => {
     if (email === "" || password === "") {
       Alert.alert("please enter your email and password");
     } else {
-      const res = await fetch("https://y-sooty-seven.vercel.app/user/login", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await fetch(
+        "https://apple-farm-server.vercel.app/user/login",
+        {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
       const data = await res.json();
+
+      console.log("email while logging in", email, "and data", data);
 
       if (data) {
         if (data.message) {
           setMsg(data.message);
+          setEmail(email);
         } else {
           setMsg("");
           try {

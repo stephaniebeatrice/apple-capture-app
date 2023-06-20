@@ -30,14 +30,10 @@ function PlaceForm({ onCreatePlace }) {
     const isRowValid = enteredRow?.trim() !== "";
     const isColumnValid = enteredColumn?.trim() !== "";
     const isYOPValid = enteredYOP?.trim() !== "";
-    const isLocationValid = pickedLocation?.trim() !== "";
+    // const isLocationValid = pickedLocation?.trim() !== "";
     return (
-      isIDValid &&
-      isBreedValid &&
-      isRowValid &&
-      isColumnValid &&
-      isYOPValid &&
-      isLocationValid
+      isIDValid && isBreedValid && isRowValid && isColumnValid && isYOPValid
+      // isLocationValid
     );
   };
 
@@ -69,9 +65,7 @@ function PlaceForm({ onCreatePlace }) {
         if (pickedLocation) {
           setIsFormValid(true);
         }
-        // setIsFormValid(checkFormValidity());
-        // checkFormValidityFn();
-        // console.log("picklocation handler", pickedLocation);
+        console.log("picklocation handler", location);
       }
     } catch (error) {
       console.log("An error occurred in pickLocationHandler:", error);
@@ -95,46 +89,53 @@ function PlaceForm({ onCreatePlace }) {
   }
 
   return (
-    <ScrollView style={styles.form}>
-      <View>
-        <Text style={styles.label}>Apple ID</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={changeIDHandler}
-          value={enteredID}
-        />
-        <Text style={styles.label}>YOP</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={changeYOPHandler}
-          value={enteredYOP}
-        />
-        <Text style={styles.label}>Breed</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={changeBreedHandler}
-          value={enteredBreed}
-        />
-        <Text style={styles.label}>Row</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={changeRowHandler}
-          value={enteredRow}
-        />
-        <Text style={styles.label}>Column</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={changeColumnHandler}
-          value={enteredColumn}
-        />
-      </View>
-      {/* <ImagePicker onTakeImage={takeImageHandler} /> */}
-      <LocationPicker onPickLocation={pickLocationHandler} />
-      <Button onPress={savePlaceHandler} disabled={!isFormValid}>
-        Add Place
-      </Button>
-      <View style={styles.view} />
-    </ScrollView>
+    <ImageBackground
+      source={require("../../assets/formPage.jpeg")}
+      style={styles.backgroundImage}
+    >
+      <View style={styles.overlay} />
+      <ScrollView style={styles.form}>
+        <View style={styles.container}>
+          <Text style={styles.label}>Apple ID</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={changeIDHandler}
+            value={enteredID}
+          />
+
+          <Text style={styles.label}>YOP</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={changeYOPHandler}
+            value={enteredYOP}
+          />
+          <Text style={styles.label}>Breed</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={changeBreedHandler}
+            value={enteredBreed}
+          />
+          <Text style={styles.label}>Row</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={changeRowHandler}
+            value={enteredRow}
+          />
+          <Text style={styles.label}>Column</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={changeColumnHandler}
+            value={enteredColumn}
+          />
+        </View>
+        {/* <ImagePicker onTakeImage={takeImageHandler} /> */}
+        <LocationPicker onPickLocation={pickLocationHandler} />
+        <Button onPress={savePlaceHandler} disabled={!isFormValid}>
+          Add Place
+        </Button>
+        <View style={styles.view} />
+      </ScrollView>
+    </ImageBackground>
   );
 }
 
@@ -143,7 +144,15 @@ export default PlaceForm;
 const styles = StyleSheet.create({
   form: {
     flex: 1,
-    padding: 24,
+    padding: 30,
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: "cover",
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Replace with your desired hue color
   },
   view: {
     height: 200,
@@ -152,14 +161,30 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 4,
     color: Colors.primary500,
+    marginRight: 10,
   },
   input: {
-    marginVertical: 8,
-    paddingHorizontal: 4,
-    paddingVertical: 8,
+    width: "60%",
+    height: 40,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    marginBottom: 12,
+    padding: 10,
+    //flex: 1,
+    // marginVertical: 8,
+    // paddingHorizontal: 4,
+    // paddingVertical: 8,
     fontSize: 16,
-    borderBottomColor: Colors.primary700,
-    borderBottomWidth: 2,
+    // borderBottomColor: Colors.primary700,
+    // borderBottomWidth: 2,
     backgroundColor: Colors.primary100,
+    borderRadius: 30,
+  },
+  submitButton: {
+    backgroundColor: "green",
+    borderRadius: 30,
+    marginTop: 12,
+    paddingVertical: 10,
+    alignItems: "center",
   },
 });

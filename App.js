@@ -28,14 +28,21 @@ export default function App() {
       } else {
         console.log("No data found.", value);
       }
+      return value;
     } catch (error) {
       console.log("Error retrieving data: ", error);
     }
   };
 
   useLayoutEffect(() => {
-    retrieveData();
+    async function fetchData() {
+      const email = await retrieveData();
+      setEmail(email);
+      console.log(email, "layou");
+    }
+    fetchData();
   }, [email]);
+  console.log(email, "OUTS");
 
   return (
     <>
@@ -73,12 +80,15 @@ export default function App() {
             component={AllPlaces}
             options={({ navigation }) => ({
               title: "APPLES",
+              initialParams: { email: "initial params" },
               headerRight: ({ tintColor }) => (
                 <IconButton
                   icon="add"
                   size={24}
                   color={tintColor}
-                  onPress={() => navigation.navigate("AddPlace")}
+                  onPress={() =>
+                    navigation.navigate("AddPlace", { email: email })
+                  }
                 />
               ),
             })}

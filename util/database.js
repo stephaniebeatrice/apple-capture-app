@@ -1,5 +1,8 @@
 import axios from "axios";
+import { useState } from "react";
 
+// const [gEmail, setGEmail] = useState("");
+let gEmail;
 export async function storeData(place, email) {
   console.log(place);
   // console.log();
@@ -41,18 +44,20 @@ export async function storeData(place, email) {
 }
 
 export async function fetchData(email) {
-  const response = await axios.get(
-    "https://geolocationapp-bb2b6-default-rtdb.firebaseio.com/geolocation.json"
-  );
-  const tryX = "kelvinmomanyi3@gmail.com";
+  gEmail = email;
+  // const response = await axios.get(
+  //   "https://geolocationapp-bb2b6-default-rtdb.firebaseio.com/geolocation.json"
+  // );
+  // const tryX = "kelvinmomanyi3@gmail.com";
+  // setGEmail(emai
   const geolocationData2 = [];
   try {
     const response2 = await axios.get(
-      `https://apple-farm-server.vercel.app/apples/get-apples?email=${tryX}`
+      `https://apple-farm-server.vercel.app/apples/get-apples?email=${email.email}`
     );
 
-    console.log(response2.data.apple[0]);
-
+    // console.log(response2.data.apple[0]);
+    // console.log(email);
     for (const key in response2.data.apple) {
       const geolocationObject1 = {
         id: response2.data.apple[key].ID,
@@ -70,7 +75,7 @@ export async function fetchData(email) {
       geolocationData2.push(geolocationObject1);
     }
 
-    console.log("THIS IS GEOLOCATION DATA 2", geolocationData2);
+    // console.log("THIS IS GEOLOCATION DATA 2", geolocationData2);
   } catch (error) {
     console.log("NO DATA", error);
   }
@@ -97,9 +102,10 @@ export async function fetchData(email) {
 
 export async function fetchPlaceDetails(id) {
   const tryX = "kelvinmomanyi3@gmail.com";
+  console.log("gm", gEmail);
   try {
     const response = await axios.get(
-      `https://apple-farm-server.vercel.app/apples/get-apples?email=${tryX}`
+      `https://apple-farm-server.vercel.app/apples/get-apples?email=${gEmail}`
     );
     const data = response.data;
     console.log("here thee", data.apple); // Log the array of apple objects
