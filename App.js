@@ -13,6 +13,7 @@ import PlaceDetails from "./screens/PlaceDetails";
 import { SignUp } from "./screens/Signup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, StyleSheet } from "react-native";
+import { StartScreen } from "./screens/StartScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -50,13 +51,22 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
-            headerStyle: { backgroundColor: Colors.primary500 },
+            headerStyle: { backgroundColor: "#50C878" },
             headerTintColor: Colors.gray700,
             contentStyle: { backgroundColor: Colors.gray700 },
           }}
         >
           {!email && (
             <>
+              <Stack.Screen
+                name="Start"
+                component={StartScreen}
+                options={({ navigation }) => ({
+                  title: "Get Started",
+                  headerShown: false,
+                  // headerRight: ({ tintColor }) => <IconButton icon="add" size={24} color={tintColor} onPress={() => navigation.navigate("AddPlace")} />,
+                })}
+              />
               <Stack.Screen
                 name="Login"
                 component={Login}

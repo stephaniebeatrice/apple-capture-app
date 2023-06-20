@@ -66,38 +66,21 @@ export const Login = ({ navigation }) => {
   return (
     <View style={styles.form}>
       <View style={styles.view}>
-      <Text style={styles.label}>Email</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={(text) => setEmail(text)}
-        value={email}
-      />
-      {emailError !== "" && (
-        <Text style={styles.errorText}>{emailError}</Text>
-      )}
-      <Text style={styles.label}>Password</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={(text) => setPassword(text)}
-        value={password}
-        secureTextEntry
-      />
-      {passwordError !== "" && (
-        <Text style={styles.errorText}>{passwordError}</Text>
-      )}
-      {msg && (
-        <Text style={styles.validationMsg}>{msg}</Text>
-      )}
-      <TouchableOpacity onPress={loginHandler} style={styles.buttons}>
-        <Text style={styles.btnText} >Login</Text>
-      </TouchableOpacity>
-      
-      <View style={{ marginVertical: 10 }}>
-        <TouchableOpacity onPress={()=> navigation.navigate("Signup")} style={styles.buttons}>
-        <Text style={styles.btnText} >Signup</Text>
-      </TouchableOpacity>
-       
-      </View>
+        <Text style={styles.label}>Email</Text>
+        <TextInput style={styles.input} onChangeText={text => setEmail(text)} value={email} />
+        {emailError !== "" && <Text style={styles.errorText}>{emailError}</Text>}
+        <Text style={styles.label}>Password</Text>
+        <TextInput style={styles.input} onChangeText={text => setPassword(text)} value={password} secureTextEntry />
+        {passwordError !== "" && <Text style={styles.errorText}>{passwordError}</Text>}
+        {msg && <Text style={styles.validationMsg}>{msg}</Text>}
+        <TouchableOpacity onPress={loginHandler} style={styles.buttons}>
+          <Text style={styles.btnText}>Login</Text>
+        </TouchableOpacity>
+        <View style={{ marginVertical: 10 }}>
+          <Text style={{ textAlign: "center" }}>
+            Do not have an account? <Text style={styles.btn}>Sign up</Text>
+          </Text>
+        </View>
       </View>
     </View>
   );
@@ -106,17 +89,13 @@ export const Login = ({ navigation }) => {
 const styles = StyleSheet.create({
   form: {
     flex: 1,
-     padding: 24,    
-    justifyContent:'center',    
-    
+    padding: 24,
+    justifyContent: "center",
   },
   view: {
-    
-    backgroundColor:'#fff', 
-    borderRadius:10,      
-     padding:24,
-     
-    
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 24,
   },
   label: {
     fontWeight: "bold",
@@ -128,25 +107,30 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
     paddingVertical: 8,
     fontSize: 16,
-    borderRadius:10,
+    borderRadius: 10,
     borderBottomColor: "#50C878",
-    borderBottomWidth: 2,
-    backgroundColor: "#a0defb",
+    borderBottomWidth: 1,
+    borderColor: "#a0defb",
+    borderWidth: 1,
   },
   errorText: {
     color: "red",
     marginBottom: 8,
   },
-  buttons:{
-  backgroundColor: "#50C878",
-  borderRadius:10,
-  paddingVertical:8,
+  buttons: {
+    backgroundColor: "#50C878",
+    borderRadius: 10,
+    paddingVertical: 8,
+    marginVertical: 8,
   },
-  btnText:{
-    textAlign:'center',
-    color:'#fff',
-    fontSize:20,
-    textTransform:'uppercase',
+  btn: {
+    color: "#50C878",
+  },
+  btnText: {
+    textAlign: "center",
+    color: "#fff",
+    fontSize: 20,
+    textTransform: "uppercase",
   },
   validationMsg: {
     marginVertical: 10,

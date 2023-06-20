@@ -144,8 +144,13 @@ export const SignUp = ({ navigation }) => {
         if (data.message === "User already exists") {
           setMsg(data.message);
         } else {
-          setMsg("");
-          navigation.navigate("Login");
+          try {
+            await AsyncStorage.setItem("key", email);
+            console.log("Data stored successfully.");
+          } catch (error) {
+            console.log("Error storing data: ", error);
+          }
+          navigation.navigate("AllPlaces", { email: email });
         }
       }
     }
@@ -154,120 +159,54 @@ export const SignUp = ({ navigation }) => {
   return (
     <View style={styles.form}>
       <View style={styles.view}>
-      <Text style={styles.label}>First Name</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={firstNameInputChangeHandler}
-        value={firstName}
-      />
-      {firstNameError !== "" && (
-        <Text style={styles.errorText}>{firstNameError}</Text>
-      )}
-      <Text style={styles.label}>Last Name</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={lastNameInputChangeHandler}
-        value={lastName}
-      />
-      {lastNameError !== "" && (
-        <Text style={styles.errorText}>{lastNameError}</Text>
-      )}
-      <Text style={styles.label}>Email</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={emailInputChangeHandler}
-        value={email}
-      />
-      {emailError !== "" && (
-        <Text style={styles.errorText}>{emailError}</Text>
-      )}
-      <Text style={styles.label}>Password</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={passwordInputChangeHandler}
-        value={password}
-        secureTextEntry
-      />
-      {passwordError !== "" && (
-        <Text style={styles.errorText}>{passwordError}</Text>
-      )}
-      {password !== "" && (
-        <Text style={styles.errorText}>
-           Password Strength: {checkPasswordStrength(password)}
-        </Text>
-      )}
-      {msg && (
-        <Text style={styles.validationMsg}>{msg}</Text>
-      )}
-      <TouchableOpacity onPress={signUpHandler} style={styles.buttons}>
-        <Text style={styles.btnText} >SignUp</Text>
-      </TouchableOpacity>
-      
-      <View style={{flexDirection:'row'}}>
-         <TouchableOpacity onPress={()=> navigation.navigate("Login")}>
-        <Text>Already have an account? <Text style={styles.btn}>Login</Text></Text> 
-      </TouchableOpacity>
-      </View>    
-      
+        <Text style={styles.label}>First Name</Text>
+        <TextInput style={styles.input} onChangeText={firstNameInputChangeHandler} value={firstName} />
+        {firstNameError !== "" && <Text style={styles.errorText}>{firstNameError}</Text>}
+        <Text style={styles.label}>Last Name</Text>
+        <TextInput style={styles.input} onChangeText={lastNameInputChangeHandler} value={lastName} />
+        {lastNameError !== "" && <Text style={styles.errorText}>{lastNameError}</Text>}
+        <Text style={styles.label}>Email</Text>
+        <TextInput style={styles.input} onChangeText={emailInputChangeHandler} value={email} />
+        {emailError !== "" && <Text style={styles.errorText}>{emailError}</Text>}
+        <Text style={styles.label}>Password</Text>
+        <TextInput style={styles.input} onChangeText={passwordInputChangeHandler} value={password} secureTextEntry />
+        {passwordError !== "" && <Text style={styles.errorText}>{passwordError}</Text>}
+        {password !== "" && <Text style={styles.errorText}>Password Strength: {checkPasswordStrength(password)}</Text>}
+        {msg && <Text style={styles.validationMsg}>{msg}</Text>}
+        <TouchableOpacity onPress={signUpHandler} style={styles.buttons}>
+          <Text style={styles.btnText}>SignUp</Text>
+        </TouchableOpacity>
+        <View style={{ marginVertical: 10 }}>
+          <Text style={{ textAlign: "center" }}>
+            Already have an account?{" "}
+            <Text style={styles.btn} onPress={() => navigation.navigate("Login")}>
+              login
+            </Text>
+          </Text>
+        </View>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  form: {
-    flex: 1,
-    padding: 24,
-    justifyContent:'center',
-  },
-  view: {
-    
-    backgroundColor:'#fff', 
-    borderRadius:10,      
-     padding:24,
-         
-  },
-  label: {
-    fontWeight: "bold",
-    marginBottom: 4,
-    color: "#50C878",
-  },
+  form: { flex: 1, padding: 24, justifyContent: "center" },
+  view: { backgroundColor: "#fff", borderRadius: 10, padding: 24 },
+  label: { fontWeight: "bold", marginBottom: 3, color: "#50C878" },
   input: {
     marginVertical: 8,
     paddingHorizontal: 4,
     paddingVertical: 8,
     fontSize: 16,
-    borderRadius:10,
+    borderRadius: 10,
     borderBottomColor: "#50C878",
     borderBottomWidth: 2,
     backgroundColor: "#a0defb",
   },
-  errorText: {
-    color: "red",
-    marginBottom: 8,
-  },
-  buttons:{
-    backgroundColor: "#50C878",
-    borderRadius:10,
-    paddingVertical:8,
-    },
-    btnText:{
-      textAlign:'center',
-      color:'#fff',
-      fontSize:20,
-      textTransform:'uppercase',
-    },
-    btn:{
-    color:'blue',
-    fontSize:18,  
-    },
-  validationMsg: {
-    marginVertical: 10,
-    color: "#50C878",
-    textAlign: "center",
-  },
-  passwordStrength: {
-    marginTop: 8,
-    color: "#50C878",
-  },
+  errorText: { color: "red", marginBottom: 8 },
+  buttons: { backgroundColor: "#50C878", borderRadius: 10, paddingVertical: 8 },
+  btnText: { textAlign: "center", color: "#fff", fontSize: 20, textTransform: "uppercase" },
+  btn: { color: "#50C878" },
+  validationMsg: { marginVertical: 10, color: "#50C878", textAlign: "center" },
+  passwordStrength: { marginTop: 8, color: "#50C878" },
 });
