@@ -1,18 +1,19 @@
+import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { StatusBar } from "expo-status-bar";
+import React, { useState, useLayoutEffect } from "react";
 
 import IconButton from "./components/UI/IconButton";
 import { Colors } from "./constants/colors";
 import AddPlace from "./screens/AddPlace";
 import AllPlaces from "./screens/AllPlaces";
 import Map from "./screens/Map";
-
-import { useLayoutEffect, useState } from "react";
 import { Login } from "./screens/Login";
 import PlaceDetails from "./screens/PlaceDetails";
 import { SignUp } from "./screens/Signup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { View, StyleSheet } from "react-native";
+import { StartScreen } from "./screens/StartScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,7 @@ export default function App() {
       console.log(email, "layou");
     }
     if (!email) {
+      console.log("non emiall");
       return;
     }
     fetchData();
@@ -64,6 +66,15 @@ export default function App() {
         >
           {!email ? (
             <>
+              <Stack.Screen
+                name="Start"
+                component={StartScreen}
+                options={({ navigation }) => ({
+                  title: "Get Started",
+                  headerShown: false,
+                  // headerRight: ({ tintColor }) => <IconButton icon="add" size={24} color={tintColor} onPress={() => navigation.navigate("AddPlace")} />,
+                })}
+              />
               <Stack.Screen
                 name="Login"
                 component={Login}
@@ -91,14 +102,16 @@ export default function App() {
                 height: 150,
               },
               headerRight: ({ tintColor }) => (
-                <IconButton
-                  icon="add"
-                  size={24}
-                  color={tintColor}
-                  onPress={() =>
-                    navigation.navigate("AddPlace", { email: email })
-                  }
-                />
+                <View style={styles.circle}>
+                  <IconButton
+                    icon="add"
+                    size={24}
+                    color={tintColor}
+                    onPress={() =>
+                      navigation.navigate("AddPlace", { email: email })
+                    }
+                  />
+                </View>
               ),
             })}
           />
@@ -123,3 +136,13 @@ export default function App() {
     </>
   );
 }
+const styles = StyleSheet.create({
+  circle: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "lightblue",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});

@@ -3,7 +3,7 @@ import PlaceForm from "../components/Places/PlaceForm";
 import { storeData } from "../util/database";
 
 function AddPlace({ navigation, route }) {
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   async function createPlaceHandler(place) {
     // const retrieveData = async () => {
     //   try {
@@ -27,13 +27,16 @@ function AddPlace({ navigation, route }) {
     // };
 
     // getValue();
+
+    const { email } = route.params;
+    console.log("ethe", email ? email : "no email");
+
     if (!email) {
       console.log("no email");
       return;
     }
-    // const { email } = route.params;
-    console.log("ethe", email);
-    useEffect(async () => await storeData(place, email), [email]);
+    await storeData(place, email);
+
     navigation.navigate("AllPlaces");
   }
 

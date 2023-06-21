@@ -8,12 +8,12 @@ import { fetchData, fetchPlaces } from "../util/database";
 // import { Colors } from "react-native/Libraries/NewAppScreen";
 import { Colors } from "../constants/colors";
 
-function AllPlaces({ route }) {
+function AllPlaces({ navigation, route }) {
   const [loadedPlaces, setLoadedPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
   // const [email, setEmail] = useState("");
   const isFocused = useIsFocused();
-  const data = "kelvinmomanyi3@gmail.com";
+  // const data = "kelvinmomanyi3@gmail.com";
   // console.log(email);
   const data2 = route.params.email;
   console.log("this is all places data via params", data2);
