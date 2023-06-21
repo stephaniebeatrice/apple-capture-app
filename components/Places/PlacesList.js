@@ -1,6 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
 import { FlatList, StyleSheet, Text, View, ImageBackground } from 'react-native'
-import { LinearGradient } from 'expo-linear-gradient'
 
 import { Colors } from '../../constants/colors'
 import PlaceItem from './PlaceItem'
@@ -46,7 +45,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: 'white'
+		backgroundColor: '#e8e6e6'
 	},
 	fallbackText: {
 		fontSize: 16,
