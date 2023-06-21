@@ -4,10 +4,37 @@ import { ScrollView, Image, View, Text, StyleSheet } from "react-native";
 import OutlinedButton from "../components/UI/OutlinedButton";
 import { Colors } from "../constants/colors";
 import { deleteItemById, fetchPlaceDetails } from "../util/database";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
 function PlaceDetails({ route, navigation }) {
   const [fetchedPlace, setFetchedPlace] = useState();
+  const [email, setEmail] = useState("");
 
+  const retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("key");
+      // setEmail(value);
+      if (value !== null) {
+        console.log("Retrieved data: ", value);
+      } else {
+        console.log("No data found.", value);
+      }
+      return value;
+    } catch (error) {
+      console.log("Error retrieving data: ", error);
+    }
+  };
+  const getValue = async () => {
+    const value = await retrieveData();
+    console.log("value in place details", value);
+    // return value;
+    setEmail(value);
+  };
+
+  getValue();
+  console.log(email);
+  console.log("this is the value", email);
   function showOnMapHandler() {
     navigation.navigate("Map", {
       initialLat: fetchedPlace.geoLocation.lat,
@@ -17,6 +44,12 @@ function PlaceDetails({ route, navigation }) {
   function deleteHandler() {
     console.log(selectedPlaceId);
     deleteItemById(selectedPlaceId);
+    // navigation.navigate("AllPlaces");
+  }
+
+  async function logoutHandler() {
+    await AsyncStorage.removeItem("key");
+    navigation.navigate("Login");
   }
 
   const selectedPlaceId = route.params.placeId;
@@ -24,7 +57,7 @@ function PlaceDetails({ route, navigation }) {
   useEffect(() => {
     // console.log("selected", route.params.placeId);
     async function loadPlaceData() {
-      const place = await fetchPlaceDetails(selectedPlaceId);
+      const place = await fetchPlaceDetails(selectedPlaceId, email);
       // console.log("placedetails", place);
       setFetchedPlace(place);
       navigation.setOptions({
@@ -33,7 +66,7 @@ function PlaceDetails({ route, navigation }) {
     }
     //adding placedata
     loadPlaceData();
-  }, [selectedPlaceId]);
+  }, [selectedPlaceId, email]);
 
   if (!fetchedPlace) {
     return (
@@ -83,6 +116,9 @@ function PlaceDetails({ route, navigation }) {
         </OutlinedButton>
         <OutlinedButton icon={"trash-bin"} onPress={deleteHandler}>
           Delete Item
+        </OutlinedButton>
+        <OutlinedButton icon={"trash-bin"} onPress={logoutHandler}>
+          Logout
         </OutlinedButton>
       </View>
     </ScrollView>

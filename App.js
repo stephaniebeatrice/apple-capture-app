@@ -22,7 +22,7 @@ export default function App() {
   const retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem("key");
-      setEmail(value);
+      // setEmail(value);
       if (value !== null) {
         console.log("Retrieved data: ", value);
       } else {
@@ -40,6 +40,9 @@ export default function App() {
       setEmail(email);
       console.log(email, "layou");
     }
+    if (!email) {
+      return;
+    }
     fetchData();
   }, [email]);
   console.log(email, "OUTS");
@@ -50,12 +53,16 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
-            headerStyle: { backgroundColor: Colors.primary500 },
+            // headerStyle: {},
             headerTintColor: Colors.gray700,
-            contentStyle: { backgroundColor: Colors.gray700 },
+            contentStyle: {
+              backgroundColor: Colors.gray700,
+              height: 140,
+              borderBottomRightRadius: 30,
+            },
           }}
         >
-          {!email && (
+          {!email ? (
             <>
               <Stack.Screen
                 name="Login"
@@ -74,13 +81,15 @@ export default function App() {
                 })}
               />
             </>
-          )}
+          ) : null}
           <Stack.Screen
             name="AllPlaces"
             component={AllPlaces}
             options={({ navigation }) => ({
               title: "APPLES",
-              initialParams: { email: "initial params" },
+              headerStyle: {
+                height: 150,
+              },
               headerRight: ({ tintColor }) => (
                 <IconButton
                   icon="add"
@@ -98,7 +107,7 @@ export default function App() {
             name="AddPlace"
             component={AddPlace}
             options={{
-              title: "Add a new Place",
+              title: "Add a new Apple",
             }}
           />
           <Stack.Screen name="Map" component={Map} />
@@ -106,7 +115,7 @@ export default function App() {
             name="PlaceDetails"
             component={PlaceDetails}
             options={{
-              title: "Loading Place...",
+              title: "Loading Apple Details...",
             }}
           />
         </Stack.Navigator>

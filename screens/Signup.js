@@ -16,11 +16,14 @@ export const SignUp = ({ navigation }) => {
     ) {
       Alert.alert("please enter all the fields");
     } else {
-      const res = await fetch("https://y-sooty-seven.vercel.app/user/signup", {
-        method: "post",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ firstName, lastName, email, password }),
-      });
+      const res = await fetch(
+        "https://apple-farm-server.vercel.app/user/signup",
+        {
+          method: "post",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ firstName, lastName, email, password }),
+        }
+      );
       const data = await res.json();
       if (data) {
         if (data.message === "User already exists") {
