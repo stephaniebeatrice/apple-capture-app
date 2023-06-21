@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Alert, StyleSheet, View, TextInput, TouchableOpacity, Text } from "react-native";
+import {
+  Alert,
+  StyleSheet,
+  View,
+  TextInput,
+  TouchableOpacity,
+  Text,
+} from "react-native";
 
 export const SignUp = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -49,7 +56,7 @@ export const SignUp = ({ navigation }) => {
     return true;
   };
 
-  const emailInputChangeHandler = text => {
+  const emailInputChangeHandler = (text) => {
     setEmail(text);
     if (text !== "") {
       validateEmail(text);
@@ -58,7 +65,7 @@ export const SignUp = ({ navigation }) => {
     }
   };
 
-  const validateEmail = text => {
+  const validateEmail = (text) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(text)) {
       setEmailError("Please enter a valid email address");
@@ -67,7 +74,7 @@ export const SignUp = ({ navigation }) => {
     }
   };
 
-  const passwordInputChangeHandler = text => {
+  const passwordInputChangeHandler = (text) => {
     setPassword(text);
     if (text !== "") {
       validatePassword(text);
@@ -76,7 +83,7 @@ export const SignUp = ({ navigation }) => {
     }
   };
 
-  const validatePassword = text => {
+  const validatePassword = (text) => {
     if (text.length < 6) {
       setPasswordError("Password must be at least 6 characters long");
     } else {
@@ -84,7 +91,7 @@ export const SignUp = ({ navigation }) => {
     }
   };
 
-  const firstNameInputChangeHandler = text => {
+  const firstNameInputChangeHandler = (text) => {
     setFirstName(text);
     if (text !== "") {
       validateFirstName(text);
@@ -93,7 +100,7 @@ export const SignUp = ({ navigation }) => {
     }
   };
 
-  const validateFirstName = text => {
+  const validateFirstName = (text) => {
     const nameRegex = /^[A-Za-z]+$/;
     if (!nameRegex.test(text)) {
       setFirstNameError("First name can only contain letters");
@@ -102,7 +109,7 @@ export const SignUp = ({ navigation }) => {
     }
   };
 
-  const lastNameInputChangeHandler = text => {
+  const lastNameInputChangeHandler = (text) => {
     setLastName(text);
     if (text !== "") {
       validateLastName(text);
@@ -111,7 +118,7 @@ export const SignUp = ({ navigation }) => {
     }
   };
 
-  const validateLastName = text => {
+  const validateLastName = (text) => {
     const nameRegex = /^[A-Za-z]+$/;
     if (!nameRegex.test(text)) {
       setLastNameError("Last name can only contain letters");
@@ -120,7 +127,7 @@ export const SignUp = ({ navigation }) => {
     }
   };
 
-  const checkPasswordStrength = password => {
+  const checkPasswordStrength = (password) => {
     if (password.length < 4) {
       return "Poor";
     } else if (password.length < 8) {
@@ -134,23 +141,26 @@ export const SignUp = ({ navigation }) => {
 
   const signUpHandler = async () => {
     if (validateFields()) {
-      const res = await fetch("https://apple-farm-server.vercel.app/user/signup", {
-        method: "post",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ firstName, lastName, email, password }),
-      });
+      const res = await fetch(
+        "https://apple-farm-server.vercel.app/user/signup",
+        {
+          method: "post",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ firstName, lastName, email, password }),
+        }
+      );
       const data = await res.json();
       if (data) {
         if (data.message === "User already exists") {
           setMsg(data.message);
         } else {
-          try {
-            await AsyncStorage.setItem("key", email);
-            console.log("Data stored successfully.");
-          } catch (error) {
-            console.log("Error storing data: ", error);
-          }
-          navigation.navigate("AllPlaces", { email: email });
+          // try {
+          //   await AsyncStorage.setItem("key", email);
+          //   console.log("Data stored successfully.");
+          // } catch (error) {
+          //   console.log("Error storing data: ", error);
+          // }
+          navigation.navigate("Login");
         }
       }
     }
@@ -160,18 +170,47 @@ export const SignUp = ({ navigation }) => {
     <View style={styles.form}>
       <View style={styles.view}>
         <Text style={styles.label}>First Name</Text>
-        <TextInput style={styles.input} onChangeText={firstNameInputChangeHandler} value={firstName} />
-        {firstNameError !== "" && <Text style={styles.errorText}>{firstNameError}</Text>}
+        <TextInput
+          style={styles.input}
+          onChangeText={firstNameInputChangeHandler}
+          value={firstName}
+        />
+        {firstNameError !== "" && (
+          <Text style={styles.errorText}>{firstNameError}</Text>
+        )}
         <Text style={styles.label}>Last Name</Text>
-        <TextInput style={styles.input} onChangeText={lastNameInputChangeHandler} value={lastName} />
-        {lastNameError !== "" && <Text style={styles.errorText}>{lastNameError}</Text>}
+        <TextInput
+          style={styles.input}
+          onChangeText={lastNameInputChangeHandler}
+          value={lastName}
+        />
+        {lastNameError !== "" && (
+          <Text style={styles.errorText}>{lastNameError}</Text>
+        )}
         <Text style={styles.label}>Email</Text>
-        <TextInput style={styles.input} onChangeText={emailInputChangeHandler} value={email} />
-        {emailError !== "" && <Text style={styles.errorText}>{emailError}</Text>}
+        <TextInput
+          style={styles.input}
+          onChangeText={emailInputChangeHandler}
+          value={email}
+        />
+        {emailError !== "" && (
+          <Text style={styles.errorText}>{emailError}</Text>
+        )}
         <Text style={styles.label}>Password</Text>
-        <TextInput style={styles.input} onChangeText={passwordInputChangeHandler} value={password} secureTextEntry />
-        {passwordError !== "" && <Text style={styles.errorText}>{passwordError}</Text>}
-        {password !== "" && <Text style={styles.errorText}>Password Strength: {checkPasswordStrength(password)}</Text>}
+        <TextInput
+          style={styles.input}
+          onChangeText={passwordInputChangeHandler}
+          value={password}
+          secureTextEntry
+        />
+        {passwordError !== "" && (
+          <Text style={styles.errorText}>{passwordError}</Text>
+        )}
+        {password !== "" && (
+          <Text style={styles.errorText}>
+            Password Strength: {checkPasswordStrength(password)}
+          </Text>
+        )}
         {msg && <Text style={styles.validationMsg}>{msg}</Text>}
         <TouchableOpacity onPress={signUpHandler} style={styles.buttons}>
           <Text style={styles.btnText}>SignUp</Text>
@@ -179,7 +218,10 @@ export const SignUp = ({ navigation }) => {
         <View style={{ marginVertical: 10 }}>
           <Text style={{ textAlign: "center" }}>
             Already have an account?{" "}
-            <Text style={styles.btn} onPress={() => navigation.navigate("Login")}>
+            <Text
+              style={styles.btn}
+              onPress={() => navigation.navigate("Login")}
+            >
               login
             </Text>
           </Text>
@@ -205,7 +247,12 @@ const styles = StyleSheet.create({
   },
   errorText: { color: "red", marginBottom: 8 },
   buttons: { backgroundColor: "#50C878", borderRadius: 10, paddingVertical: 8 },
-  btnText: { textAlign: "center", color: "#fff", fontSize: 20, textTransform: "uppercase" },
+  btnText: {
+    textAlign: "center",
+    color: "#fff",
+    fontSize: 20,
+    textTransform: "uppercase",
+  },
   btn: { color: "#50C878" },
   validationMsg: { marginVertical: 10, color: "#50C878", textAlign: "center" },
   passwordStrength: { marginTop: 8, color: "#50C878" },

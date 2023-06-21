@@ -4,7 +4,7 @@ import { useState } from "react";
 // const [gEmail, setGEmail] = useState("");
 let gEmail;
 export async function storeData(place, email) {
-  console.log(place);
+  console.log("stored data", place);
   // console.log();
   // console.log();
   // console.log();
@@ -44,7 +44,7 @@ export async function storeData(place, email) {
 }
 
 export async function fetchData(email) {
-  gEmail = email;
+  // gEmail = email.email;
   // const response = await axios.get(
   //   "https://geolocationapp-bb2b6-default-rtdb.firebaseio.com/geolocation.json"
   // );
@@ -53,11 +53,11 @@ export async function fetchData(email) {
   const geolocationData2 = [];
   try {
     const response2 = await axios.get(
-      `https://apple-farm-server.vercel.app/apples/get-apples?email=${email.email}`
+      `https://apple-farm-server.vercel.app/apples/get-apples?email=${email}`
     );
 
-    // console.log(response2.data.apple[0]);
-    // console.log(email);
+    // console.log(response2.data);
+    console.log("fetch data", email);
     for (const key in response2.data.apple) {
       const geolocationObject1 = {
         id: response2.data.apple[key].ID,
@@ -76,6 +76,7 @@ export async function fetchData(email) {
     }
 
     // console.log("THIS IS GEOLOCATION DATA 2", geolocationData2);
+    // console.log("THIS IS GEOLOCATION DATA 2", response2.data);
   } catch (error) {
     console.log("NO DATA", error);
   }
@@ -100,18 +101,21 @@ export async function fetchData(email) {
   return geolocationData2;
 }
 
-export async function fetchPlaceDetails(id) {
-  const tryX = "kelvinmomanyi3@gmail.com";
-  console.log("gm", gEmail);
+export async function fetchPlaceDetails(id, email) {
+  // const tryX = "kelvinmomanyi3@gmail.com";
+  console.log("gm", email);
   try {
     const response = await axios.get(
-      `https://apple-farm-server.vercel.app/apples/get-apples?email=${gEmail}`
+      `https://apple-farm-server.vercel.app/apples/get-apples?email=${email}`
     );
     const data = response.data;
     console.log("here thee", data.apple); // Log the array of apple objects
-
-    const filteredData = data.apple.filter((item) => item.ID === id); // Filter the array based on the ID
-    console.log("filtered data", filteredData); // Log the filtered array
+    if (data.apple === undefined) {
+      return;
+    }
+    // console.log("data apple", data.apple);
+    const filteredData = data.apple?.filter((item) => item.ID === id); // Filter the array based on the ID
+    // console.log("filtered data", filteredData); // Log the filtered array
 
     return filteredData[0]; // Return the filtered array
   } catch (error) {
@@ -121,7 +125,7 @@ export async function fetchPlaceDetails(id) {
 
 export async function deleteItemById(id) {
   try {
-    const response = await axios.delete(
+    const response = await axios.post(
       `https://apple-farm-server.vercel.app/apples/delete?ID=${id}`
     );
     console.log("Item deleted successfully:", response.data);

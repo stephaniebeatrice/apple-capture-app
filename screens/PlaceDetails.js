@@ -4,6 +4,8 @@ import { ScrollView, Image, View, Text, StyleSheet } from 'react-native'
 import OutlinedButton from '../components/UI/OutlinedButton'
 import { Colors } from '../constants/colors'
 import { deleteItemById, fetchPlaceDetails } from '../util/database'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useNavigation } from '@react-navigation/native'
 
 function PlaceDetails({ route, navigation }) {
 	const [fetchedPlace, setFetchedPlace] = useState()
@@ -45,17 +47,9 @@ function PlaceDetails({ route, navigation }) {
 
 	// console.log("this is the place details fetched place", fetchedPlace);
 	return (
-		<ScrollView style={styles.container}>
+		<ScrollView>
 			<Text style={styles.title}>Apple Details</Text>
 			<View style={styles.table}>
-				<View style={styles.row}>
-					<View style={styles.column}>
-						<Text style={styles.cellText}>ID</Text>
-					</View>
-					<View style={styles.column}>
-						<Text style={styles.cellText}>{fetchedPlace.placeId}</Text>
-					</View>
-				</View>
 				<View style={styles.row}>
 					<View style={styles.column}>
 						<Text style={styles.cellText}>YOP</Text>
@@ -91,6 +85,9 @@ function PlaceDetails({ route, navigation }) {
 				</OutlinedButton>
 				<OutlinedButton icon={'trash-bin'} onPress={deleteHandler}>
 					Delete Item
+				</OutlinedButton>
+				<OutlinedButton icon={'trash-bin'} onPress={logoutHandler}>
+					Logout
 				</OutlinedButton>
 			</View>
 		</ScrollView>
